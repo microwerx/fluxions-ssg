@@ -1,6 +1,7 @@
 #include "fluxions_ssg_pch.hpp"
 #include <fluxions_ssg_point_light.hpp>
 #include <fluxions_fileio_iostream.hpp>
+#include <fluxions_gte_color_math.hpp>
 
 namespace Fluxions {
 	bool SimplePointLight::read(const std::string& keyword, std::istream& istr) {

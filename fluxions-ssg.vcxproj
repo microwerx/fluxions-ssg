@@ -30,9 +30,6 @@
     <ClInclude Include="include\fluxions_ssg_renderer_plugin.hpp" />
     <ClInclude Include="include\fluxions_ssg_scene_graph.hpp" />
     <ClInclude Include="include\fluxions_ssg_sphere.hpp" />
-    <ClInclude Include="include\fluxions_ssg_ssphh.hpp" />
-    <ClInclude Include="include\fluxions_ssg_ssphh_light.hpp" />
-    <ClInclude Include="include\fluxions_ssg_ssphh_renderer_plugin.hpp" />
     <ClInclude Include="include\fluxions_ssg_writer.hpp" />
     <ClInclude Include="src\fluxions_ssg_pch.hpp" />
   </ItemGroup>
@@ -96,18 +93,6 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\fluxions_ssg_sphere.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\fluxions_ssg_ssphh.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\fluxions_ssg_ssphh_light.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\fluxions_ssg_ssphh_renderer_plugin.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
     </ClCompile>

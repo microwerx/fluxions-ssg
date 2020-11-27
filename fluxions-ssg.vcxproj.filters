@@ -72,15 +72,6 @@
     <ClInclude Include="include\fluxions_ssg_sphere.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\fluxions_ssg_ssphh.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\fluxions_ssg_ssphh_light.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\fluxions_ssg_ssphh_renderer_plugin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\fluxions_ssg_writer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -132,15 +123,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\fluxions_ssg_sphere.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fluxions_ssg_ssphh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fluxions_ssg_ssphh_light.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fluxions_ssg_ssphh_renderer_plugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\fluxions_ssg_writer.cpp">

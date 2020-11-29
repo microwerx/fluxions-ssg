@@ -235,11 +235,12 @@ namespace Fluxions {
 	}
 
 	Fluxions::Vector3f SimplePathAnimation::pcatmullrom(float t) const {
+        if (keyframes.empty()) return Fluxions::Vector3f{};
 		const unsigned size = (unsigned)keyframes.size();
-		int cp1 = int(t) % keyframes.size();
-		int cp0 = (cp1 - 1) % keyframes.size();
-		int cp2 = (cp1 + 1) % keyframes.size();
-		int cp3 = (cp1 + 2) % keyframes.size();
+        int cp1 = int(t) % size;
+        int cp0 = (cp1 - 1) % size;
+        int cp2 = (cp1 + 1) % size;
+        int cp3 = (cp1 + 2) % size;
 		t = t - int(t);
 		float alpha = Fluxions::lerp(t, keyframes[cp1].a, keyframes[cp2].a);
 		return Fluxions::CatmullRomSegment(t,
@@ -251,6 +252,7 @@ namespace Fluxions {
 	}
 
 	Fluxions::Vector3f SimplePathAnimation::plerp(float t) const {
+        if (keyframes.empty()) return Fluxions::Vector3f{};
 		int cp1 = int(t) % keyframes.size();
 		int cp2 = (cp1 + 1) % keyframes.size();
 		t = t - int(t);
@@ -258,6 +260,7 @@ namespace Fluxions {
 	}
 
 	Fluxions::Quaternionf SimplePathAnimation::qslerp(float t) const {
+        if (keyframes.empty()) return Fluxions::Quaternionf{};
 		int cp1 = int(t) % keyframes.size();
 		int cp2 = (cp1 + 1) % keyframes.size();
 		t = t - int(t);
@@ -265,6 +268,7 @@ namespace Fluxions {
 	}
 
 	Fluxions::Quaternionf SimplePathAnimation::qsquad(float t) const {
+        if (keyframes.empty()) return Fluxions::Quaternionf{};
 		using Fluxions::slerp;
 		int cp1 = int(t) % keyframes.size();
 		int cp0 = (cp1 - 1) % keyframes.size();

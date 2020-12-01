@@ -5,17 +5,12 @@
 #include <fluxions_file_system.hpp>
 #include <fluxions_resource_manager.hpp>
 #include <fluxions_simple_geometry_mesh.hpp>
-//#include <starfish.hpp>
 
 namespace Fluxions {
 	constexpr int MaxSphlLights = 16;
 	constexpr int MaxSphlDegree = 9;
 	constexpr int DefaultSphlDegree = 2;
 	constexpr int SphlSunIndex = MaxSphlLights;
-
-	//struct SceneGraphReader;
-	//struct SceneGraphWriter;
-	//struct ISimpleRendererPlugin;
 
 	enum class SceneGraphFileType {
 		Unknown = 0,

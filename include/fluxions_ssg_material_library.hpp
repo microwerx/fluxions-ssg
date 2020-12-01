@@ -27,6 +27,7 @@ namespace Fluxions {
 		bool saveXml(const std::string& path, int flags) const;
 
 		int getMaterialIndex(const std::string& materialName) const;
+
 	private:
 		SimpleMaterial* set_mtl(std::string&& name);
 		// Looks for map location, modifies mapname to be user friendly

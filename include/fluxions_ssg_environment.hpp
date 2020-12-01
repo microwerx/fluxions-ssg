@@ -1,13 +1,16 @@
 #ifndef FLUXIONS_SSG_ENVIRONMENT_HPP
 #define FLUXIONS_SSG_ENVIRONMENT_HPP
 
+#include <fluxions_base_objects.hpp>
 #include <fluxions_ssg_base.hpp>
 #include <starfish-astronomy.hpp>
 
 namespace Fluxions {
 	struct SimpleEnvironmentPrivate;
 
-	struct SimpleEnvironment : BaseEnvironment {
+	class SimpleEnvironment {
+	public:
+		BaseEnvironment base;
 		bool hasColor = false;
 		bool hasTexmap = false;
 		bool hasSun = false;

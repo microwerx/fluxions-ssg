@@ -18,10 +18,6 @@
     <ClInclude Include="include\fluxions_ssg_dirto_light.hpp" />
     <ClInclude Include="include\fluxions_ssg_environment.hpp" />
     <ClInclude Include="include\fluxions_ssg_geometry_group.hpp" />
-    <ClInclude Include="include\fluxions_ssg_map.hpp" />
-    <ClInclude Include="include\fluxions_ssg_material.hpp" />
-    <ClInclude Include="include\fluxions_ssg_materials.hpp" />
-    <ClInclude Include="include\fluxions_ssg_material_library.hpp" />
     <ClInclude Include="include\fluxions_ssg_node.hpp" />
     <ClInclude Include="include\fluxions_ssg_path_animation.hpp" />
     <ClInclude Include="include\fluxions_ssg_point_light.hpp" />
@@ -47,14 +43,6 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\fluxions_ssg_environment.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\fluxions_ssg_materials.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\fluxions_ssg_material_library.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">fluxions_ssg_pch.hpp</PrecompiledHeaderFile>
     </ClCompile>

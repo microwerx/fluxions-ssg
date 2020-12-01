@@ -1,12 +1,12 @@
 #ifndef FLUXIONS_SSG_SCENE_GRAPH_HPP
 #define FLUXIONS_SSG_SCENE_GRAPH_HPP
 
+#include <fluxions_simple_material_library.hpp>
 #include <fluxions_ssg_base.hpp>
 #include <fluxions_ssg_reader.hpp>
 #include <fluxions_ssg_writer.hpp>
 #include <fluxions_ssg_camera.hpp>
 #include <fluxions_ssg_environment.hpp>
-#include <fluxions_ssg_materials.hpp>
 #include <fluxions_ssg_sphere.hpp>
 #include <fluxions_ssg_geometry_group.hpp>
 #include <fluxions_ssg_dirto_light.hpp>

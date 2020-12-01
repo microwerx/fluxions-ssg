@@ -204,16 +204,16 @@ namespace Fluxions {
 				ReadCamera(token, istr);
 			}
 			else if (token == "tonemap") {
-				environment.toneMapExposure() = clamp(ReadFloat(istr), -20.0f, 20.0f);
+				environment.base.toneMapExposure() = clamp(ReadFloat(istr), -20.0f, 20.0f);
 			}
 			else if (token == "gamma") {
-				environment.toneMapGamma() = clamp(ReadFloat(istr), -6.0f, 6.0f);
+				environment.base.toneMapGamma() = clamp(ReadFloat(istr), -6.0f, 6.0f);
 			}
 			else if (token == "filmicHighlights") {
-				environment.toneMapFilmicHighlights() = clamp(ReadFloat(istr), 0.0f, 1.0f);
+				environment.base.toneMapFilmicHighlights() = clamp(ReadFloat(istr), 0.0f, 1.0f);
 			}
 			else if (token == "filmicShadows") {
-				environment.toneMapFilmicShadows() = clamp(ReadFloat(istr), 0.0f, 1.0f);
+				environment.base.toneMapFilmicShadows() = clamp(ReadFloat(istr), 0.0f, 1.0f);
 			}
 			else if (token == "sun" || token == "moon") {
 				//currentTransform.LoadIdentity();
@@ -269,7 +269,7 @@ namespace Fluxions {
 
 		// 6. Output geometryGroups_ files
 		for (auto& [k, mesh] : staticMeshes) {
-			mesh.saveOBJ(fpi.parentPath() + mesh.name + ".obj");
+			mesh.saveOBJ(fpi.parentPath() + mesh.name() + ".obj");
 		}
 
 		// 7. Output mtllib files
@@ -406,7 +406,7 @@ namespace Fluxions {
 			return false;
 		}
 
-		materials.loadMtls(model.mtllibs);
+		materials.loadMTLs(model.mtllibs);
 
 		staticMeshes[geometryName] = model;
 		return true;
@@ -422,7 +422,7 @@ namespace Fluxions {
 			HFLOGERROR("MTLLIB '%s' was not found.", path.c_str());
 			return false;
 		}
-		if (materials.load(fpi.shortestPath())) {
+		if (materials.loadMTL(fpi.shortestPath())) {
 			return true;
 		}
 		return false;
@@ -777,7 +777,7 @@ namespace Fluxions {
 	void SimpleSceneGraph::_assignIdsToMeshes() {
 		for (auto& [mid, mesh] : staticMeshes) {
 			for (auto& [gid, group] : geometryGroups) {
-				if (group.objectId == 0 && group.objectName == mesh.name) {
+				if (group.objectId == 0 && group.objectName == mesh.name()) {
 					group.objectId = mid;
 				}
 			}

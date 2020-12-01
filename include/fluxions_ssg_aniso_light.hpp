@@ -1,6 +1,7 @@
 #ifndef FLUXIONS_SSG_ANISO_LIGHT_HPP
 #define FLUXIONS_SSG_ANISO_LIGHT_HPP
 
+#include <fluxions_base_objects.hpp>
 #include <fluxions_ssg_base.hpp>
 #include <fluxions_ssg_node.hpp>
 

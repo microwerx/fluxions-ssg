@@ -36,18 +36,6 @@
     <ClInclude Include="include\fluxions_ssg_geometry_group.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\fluxions_ssg_map.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\fluxions_ssg_material.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\fluxions_ssg_material_library.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\fluxions_ssg_materials.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\fluxions_ssg_node.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -90,12 +78,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\fluxions_ssg_environment.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fluxions_ssg_material_library.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fluxions_ssg_materials.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\fluxions_ssg_node.cpp">

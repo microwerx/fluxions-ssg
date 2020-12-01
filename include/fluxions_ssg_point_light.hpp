@@ -1,17 +1,14 @@
 #ifndef FLUXIONS_SSG_POINT_LIGHT_HPP
 #define FLUXIONS_SSG_POINT_LIGHT_HPP
 
+#include <fluxions_base_objects.hpp>
 #include <fluxions_ssg_base.hpp>
 #include <fluxions_ssg_node.hpp>
-//#include <fluxions_renderer_texture_cube.hpp>
 
 namespace Fluxions {
 	struct SimplePointLight : public SimpleSceneGraphNode {
 		BasePointLight ublock;
 		unsigned index;
-		//float E0;
-		//float falloffRadius;
-		//Vector3f position;
 
 		const char* type() const override { return "SimplePointLight"; }
 		const char* keyword() const override { return "pointLight"; }

@@ -1,7 +1,6 @@
 #ifndef FLUXIONS_SSG_SCENE_GRAPH_HPP
 #define FLUXIONS_SSG_SCENE_GRAPH_HPP
 
-#include <fluxions_simple_material_library.hpp>
 #include <fluxions_ssg_base.hpp>
 #include <fluxions_ssg_reader.hpp>
 #include <fluxions_ssg_writer.hpp>
@@ -14,18 +13,29 @@
 #include <fluxions_ssg_aniso_light.hpp>
 #include <fluxions_ssg_path_animation.hpp>
 #include <fluxions_ssg_renderer_plugin.hpp>
+#include <fluxions_simple_geometry_mesh.hpp>
+#include <fluxions_simple_material_library.hpp>
+#include <fluxions_simple_map_library.hpp>
 
 namespace Fluxions {
 	class SimpleSceneGraph : public IBaseObject {
 	public:
-		//std::string name;
-		std::vector<std::string> sceneFileLines;
-		std::vector<std::string> pathsToTry;
+		string_vector sceneFileLines;
+		//string_list pathsToTry;
+		FilePathFinder pathFinder;
 		std::vector<FileTypeStringPair> pathsToLoad;
 		Matrix4f currentTransform;
 
 		float requestedExposure{ 0.0f };
 		Vector2f requestedResolution{ 1024, 512 };
+
+		size_t sizeInBytes() const {
+			size_t geometrySize{ 0 };
+			for (const auto& mesh : staticMeshes) {
+				geometrySize += mesh.second.sizeInBytes();
+			}
+			return maps.sizeInBytes() + materials.sizeInBytes() + geometrySize;
+		}
 
 	public:
 		SimpleCamera camera;
@@ -43,10 +53,16 @@ namespace Fluxions {
 
 		TResourceManager<SimpleGeometryMesh> staticMeshes;
 		SimpleMaterialLibrary materials;
+		SimpleMapLibrary maps;
 
 		ISimpleRendererPlugin* userdata = nullptr;
 
-		bool ReadObjFile(const std::string& filename, const std::string& name);
+		// LoadObjFile returns the handle to the loaded OBJ file, or 0 if error
+		unsigned LoadObjFile(const std::string& filename);
+		
+		// LoadMtlFile returns the handle to the loaded MTL file, or 0 if error
+		unsigned LoadMtlFile(const std::string& filename);
+
 		bool ReadMaterialLibrary(const std::string& type, std::istream& istr);
 		bool ReadGeometryGroup(const std::string& type, std::istream& istr);
 		bool ReadEnviro(const std::string& type, std::istream& istr);
@@ -70,9 +86,7 @@ namespace Fluxions {
 		bool read(const std::string& keyword, std::istream& istr) override;
 		bool write(std::ostream& ostr) const override;
 
-		void addPath(const std::string& path);
 	private:
-		std::string _findPath(std::string path) const;
 		SimpleSceneGraphNode* createNode(const std::string& name, SimpleSceneGraphNode* node);
 		SimpleSceneGraphNode* createCamera(const std::string& name);
 		SimpleSceneGraphNode* createSphere(const std::string& name);

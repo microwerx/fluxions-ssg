@@ -89,23 +89,6 @@ namespace Fluxions {
 	}
 
 
-	std::string SimpleSceneGraph::_findPath(std::string path) const {
-		std::string p;
-		FilePathInfo fpi(path, pathsToTry);
-		if (fpi.exists()) p = fpi.shortestPath();
-		return fpi.shortestPath();
-	}
-
-
-	void SimpleSceneGraph::addPath(const std::string& path) {
-		FilePathInfo fpi(path);
-		if (!fpi.isDirectory()) return;
-		if (std::find(pathsToTry.begin(), pathsToTry.end(), fpi.shortestPath()) == pathsToTry.end()) {
-			pathsToTry.push_back(path);
-		}
-	}
-
-
 	bool SimpleSceneGraph::Load(const std::string& filename) {
 		FilePathInfo scenefpi(filename);
 		if (!scenefpi.exists()) return false;
@@ -126,7 +109,8 @@ namespace Fluxions {
 		reset();
 		// Use the path of the scene graph as the default path, then the current
 		// directory
-		pathsToTry.push_back(scenefpi.parentPath());
+
+		pathFinder.push(scenefpi.parentPath());
 
 		static constexpr int LOADED_DATETIME = 1;
 		static constexpr int LOADED_CAMERA = 2;
@@ -155,7 +139,7 @@ namespace Fluxions {
 			if (read(token, istr)) {
 			}
 			else if (token == "path") {
-				pathsToTry.push_back(ReadString(istr));
+				pathFinder.push(ReadString(istr));
 			}
 			else if (token == "transform") {
 				currentTransform = ReadAffineMatrix4f(istr);
@@ -250,9 +234,6 @@ namespace Fluxions {
 		calcBounds();
 
 		_assignIdsToMeshes();
-
-		// Load Images
-		//materialSystem.FindMapPaths(pathsToTry);
 
 		return true;
 	}
@@ -395,21 +376,61 @@ namespace Fluxions {
 	}
 
 
-	bool SimpleSceneGraph::ReadObjFile(const std::string& filename,
-									   const std::string& geometryName) {
-		if (staticMeshes.isAHandle(filename))
-			return true;
-
-		SimpleGeometryMesh model;
-		bool result = model.loadOBJ(filename);
-		if (!result) {
-			return false;
+	unsigned SimpleSceneGraph::LoadObjFile(const std::string& path) {
+		// See if file exists
+		std::string shortestPath = pathFinder.findShortestPath(path);
+		if (shortestPath.empty()) {
+			HFLOGERROR("OBJ '%s' was not found", shortestPath.c_str());
+			return 0;
 		}
 
-		materials.loadMTLs(model.mtllibs);
+		// If handle already exists return it, otherwise create a new object
+		if (staticMeshes.isAHandle(shortestPath))
+			return staticMeshes.getHandleFromName(shortestPath);
+		unsigned id = staticMeshes.create(shortestPath);
+		if (id == 0) {
+			HFLOGERROR("OBJ '%s' exceeds resource count", shortestPath.c_str());
+			return 0;
+		}
 
-		staticMeshes[geometryName] = model;
-		return true;
+		SimpleGeometryMesh model;
+		bool result = model.loadOBJ(shortestPath);
+		if (!result) {
+			return 0;
+		}
+
+		pathFinder.push(shortestPath);
+		for (const auto& mtllib : model.mtllibs) {
+			LoadMtlFile(mtllib.second);
+		}
+		pathFinder.pop();
+
+		staticMeshes[id] = model;
+		return id;
+	}
+
+
+	unsigned SimpleSceneGraph::LoadMtlFile(const std::string& path) {
+		std::string shortestPath = pathFinder.findShortestPath(path);
+		if (shortestPath.empty()) {
+			HFLOGERROR("MTL '%s' was not found", path.c_str());
+			return 0;
+		}
+
+		if (!materials.loadMTL(shortestPath)) {
+			HFLOGERROR("MTL '%s' had an error loading", shortestPath.c_str());
+			return 0;
+		}
+
+		unsigned result{ 1 };
+		pathFinder.push(shortestPath);
+		for (auto& [k, v] : materials.maps) {
+			if (!maps.addMap(v, pathFinder)) {
+				result = 0;
+			}
+		}
+		pathFinder.pop();
+		return result;
 	}
 
 
@@ -417,15 +438,9 @@ namespace Fluxions {
 		if (type != "mtllib")
 			return false;
 		std::string path = ReadString(istr);
-		FilePathInfo fpi(path, pathsToTry);
-		if (fpi.notFound()) {
-			HFLOGERROR("MTLLIB '%s' was not found.", path.c_str());
-			return false;
-		}
-		if (materials.loadMTL(fpi.shortestPath())) {
-			return true;
-		}
-		return false;
+
+		// Load the MTL
+		return LoadMtlFile(path);
 	}
 
 
@@ -434,12 +449,13 @@ namespace Fluxions {
 			return false;
 
 		std::string path = ReadString(istr);
-		FilePathInfo fpi(path, pathsToTry);
-		if (fpi.notFound()) {
-			HFLOGERROR("OBJ file '%s' was not found.", path.c_str());
-			return false;
-		}
-		return addGeometryGroup(fpi.stem(), fpi.shortestPath());
+		//std::string shortestPath = pathFinder.findShortestPath(path);
+		//if (shortestPath.empty()) {
+		//	HFLOGERROR("OBJ '%s' was not found.", shortestPath.c_str());
+		//	return false;
+		//}
+		//std::string objectName = pathFinder.fpi().stem();
+		return addGeometryGroup(path, path);
 	}
 
 
@@ -691,16 +707,17 @@ namespace Fluxions {
 
 
 	bool SimpleSceneGraph::addGeometryGroup(const std::string name, const std::string& path) {
-		if (!ReadObjFile(path, name)) {
-			HFLOGERROR("OBJ file %s had an error while loading", path.c_str());
+		unsigned objectId = LoadObjFile(path);
+		if (!objectId) {
 			return false;
 		}
+
 		createGeometry(name);
 		unsigned id = geometryGroups.lastId;
 
 		SimpleGeometryGroup& geometryGroup = geometryGroups[id];
 		geometryGroup.transform = currentTransform;
-		geometryGroup.bbox = staticMeshes[name].BoundingBox;
+		geometryGroup.bbox = staticMeshes[objectId].BoundingBox;
 		geometryGroup.objectId = 0;
 		geometryGroup.objectName = name;
 

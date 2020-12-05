@@ -235,9 +235,13 @@ namespace Fluxions {
 				obj_pathname << "object_" << idobjname << "_";
 				obj_pathname << idmtlname << ".obj";
 				std::string objectPath = export_path_prefix + obj_pathname.str();
-				auto lastWriteTime = std::filesystem::last_write_time(objectPath);
+				std::filesystem::file_time_type lastWriteTime{};
+				bool objectPathExists = std::filesystem::exists(objectPath);
+				if (objectPathExists) {
+					lastWriteTime = std::filesystem::last_write_time(objectPath);
+				}
 				bool ssgNewer = lastWriteTime <= ssg.lastWriteTime;
-				if (!std::filesystem::exists(objectPath) || ssgNewer) {
+				if (!objectPathExists || ssgNewer) {
 					HFLOGINFO("Writing out '%s'", obj_pathname.str().c_str());
 					mesh.saveOBJByMaterial(objectPath, idmtlname, 1);
 				}

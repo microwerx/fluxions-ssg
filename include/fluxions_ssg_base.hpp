@@ -4,7 +4,6 @@
 #include <fluxions_base.hpp>
 #include <fluxions_file_system.hpp>
 #include <fluxions_resource_manager.hpp>
-#include <fluxions_simple_geometry_mesh.hpp>
 
 namespace Fluxions {
 	constexpr int MaxSphlLights = 16;

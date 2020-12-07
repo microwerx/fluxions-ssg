@@ -1,12 +1,14 @@
 cmake_minimum_required(VERSION 3.16)
 project(fluxions-ssg)
 
+set(CMAKE_C_STANDARD            99)
+set(CMAKE_C_STANDARD_REQUIRED   ON)
+set(CMAKE_CXX_EXTENSIONS        OFF)
+set(CMAKE_CXX_STANDARD          17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 17)
 
 if (APPLE)
-   include_directories(/usr/local/include)
-   link_directories(/usr/local/lib)
+    include_directories(/usr/local/include)
 endif()
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
@@ -17,8 +19,6 @@ add_library(${PROJECT_NAME}
 	src/fluxions_ssg_camera.cpp
 	src/fluxions_ssg_dirto_light.cpp
 	src/fluxions_ssg_environment.cpp
-	src/fluxions_ssg_material_library.cpp
-	src/fluxions_ssg_materials.cpp
 	src/fluxions_ssg_node.cpp
 	src/fluxions_ssg_path_animation.cpp
 	src/fluxions_ssg_point_light.cpp

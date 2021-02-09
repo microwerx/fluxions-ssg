@@ -1,7 +1,7 @@
 #include "fluxions_ssg_pch.hpp"
 #include <fluxions_ssg_property.hpp>
 
-template class std::shared_ptr<Fluxions::SimpleProperty>;
+//template class std::shared_ptr<Fluxions::SimpleProperty>;
 template class std::unique_ptr<Fluxions::SimpleProperty>;
 template class std::map<std::string, int>;
 
